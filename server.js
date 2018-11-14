@@ -14,7 +14,7 @@ var players = {};
 app.set('port', 5000);
 app.use('/static', express.static(__dirname + '/static'));
 app.use('/js', express.static(__dirname + '/js'));
-app.use('/assets', express.static(__dirname + '/static/assets'));
+app.use('/assets', express.static(__dirname + '/assets'));
 
 
 app.get('/', function (request, response) {
