@@ -9,8 +9,6 @@ var io = socketIO(server);
 
 var players = {};
 
-//var bombs = {};
-
 app.set('port', 5000);
 app.use('/static', express.static(__dirname + '/static'));
 app.use('/js', express.static(__dirname + '/js'));
@@ -35,20 +33,10 @@ io.on('connection', function (socket) {
         y: 44,
         speed: 150
     };
-    socket.on('otherdata', function(info){
-        players[socket.id].name = info.name;
-        players[socket.id].room = info.room;
-        socket.join(players[socket.id].room);
-        console.log("Jugador "+players[socket.id].name+" enviado a sala "+players[socket.id].room);
     
-        io.in(players[socket.id].room).emit('currentPlayers', players);
-        io.in(players[socket.id].room).emit('newplayer', players[socket.id]);
-    });
-    //socket.emit('currentPlayers', players);
-    //socket.broadcast.emit('newplayer', players[socket.id]);
-    socket.on('vamonos', function(){
-        io.in(players[socket.id].room).emit('currentPlayers', players);
-    });
+    socket.emit('currentPlayers', players);
+    socket.broadcast.emit('newplayer', players[socket.id]);
+    
 
     
     socket.on('disconnect', function () {
@@ -115,7 +103,3 @@ io.on('connection', function (socket) {
 
 });
 
-
-function randomInt(low, high) {
-    return Math.floor(Math.random() * (high - low) + low);
-}
